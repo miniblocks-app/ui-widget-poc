@@ -5,7 +5,7 @@ import TextBoxItem from "./components/TextBoxItem";
 import DroppableSpace from "./components/DroppableSpace";
 import FlutterConverter from "./utils/FlutterConverter"; // Import the new component
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, resetItems, updateItemColors } from './redux/droppedItemsSlice';
+import { addItem, updateItemColors } from './redux/droppedItemsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
