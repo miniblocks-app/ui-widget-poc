@@ -3,13 +3,14 @@ import { DndContext } from "@dnd-kit/core";
 import ButtonItem from "./components/ButtonItem";
 import TextBoxItem from "./components/TextBoxItem";
 import DroppableSpace from "./components/DroppableSpace";
+import FlutterConverter from "./utils/FlutterConverter"; // Import the new component
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, resetItems, updateItemColors } from './redux/droppedItemsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
   const droppedItems = useSelector((state) => state.droppedItems.items);
-  const [localItems, setLocalItems] = useState([]);
+  const [flutterCode, setFlutterCode] = useState("");
 
   const handleDragEnd = (event) => {
     const { id } = event.active;
@@ -22,18 +23,15 @@ const App = () => {
     } else {
       const newItem = { id, position: { x, y }, color: "white", backgroundColor: "#007bff" };
       dispatch(addItem(newItem));
-      setLocalItems((prev) => [...prev, newItem]);
     }
   };
 
-  // Handle color update from ButtonItem
   const handleUpdateColors = (id, color, backgroundColor) => {
-    // Dispatch the action to update the item's colors in the Redux store
     dispatch(updateItemColors({ id, color, backgroundColor }));
   };
 
   const handleRefresh = () => {
-    window.location.reload(); // Refresh the page
+    window.location.reload();
   };
 
   const filteredItems = droppedItems.filter(item =>
@@ -56,10 +54,17 @@ const App = () => {
         {/* Middle Panel (Droppable Workspace) */}
         <DroppableSpace droppedItems={droppedItems} style={{ alignSelf: 'center' }} />
 
-        {/* Right Panel (Generated JSON) */}
+        {/* Right Panel (Generated JSON and Convert Button) */}
         <div style={{ padding: '10px' }}>
           <h3>Generated JSON</h3>
           <pre>{JSON.stringify(filteredItems, null, 2)}</pre>
+          <FlutterConverter filteredItems={filteredItems} setFlutterCode={setFlutterCode} />
+          {flutterCode && (
+            <div style={{ marginTop: "20px", whiteSpace: "pre-wrap", textAlign: "left" }}>
+              <h4>Generated Flutter Code:</h4>
+              <pre>{flutterCode}</pre>
+            </div>
+          )}
           <button onClick={handleRefresh} style={{ marginTop: "10px", padding: "10px" }}>
             Reset
           </button>
