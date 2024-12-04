@@ -1,46 +1,31 @@
-// droppedItemsSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const droppedItemsSlice = createSlice({
-  name: 'droppedItems',
-  initialState: { items: [] },
+  name: "droppedItems",
+  initialState: {
+    items: [],
+  },
   reducers: {
-    addItem(state, action) {
-      const item = action.payload;
-      const existingItemIndex = state.items.findIndex(i => i.id === item.id);
-
-      if (existingItemIndex > -1) {
-        // Update the item, preserving position and adding new colors if provided
-        state.items[existingItemIndex] = {
-          ...state.items[existingItemIndex],
-          ...item, // This will override the color and backgroundColor if provided
-        };
-      } else {
-        // Add new item, with optional colors
-        state.items.push(item);
+    addItem: (state, action) => {
+      state.items.push(action.payload);
+    },
+    updateItemPosition: (state, action) => {
+      const { id, position } = action.payload;
+      const item = state.items.find(item => item.id === id);
+      if (item) {
+        item.position = position;
       }
     },
-    updateItemColors(state, action) {
+    updateItemColors: (state, action) => {
       const { id, color, backgroundColor } = action.payload;
-      const existingItemIndex = state.items.findIndex(i => i.id === id);
-
-      if (existingItemIndex > -1) {
-        // Update the color and backgroundColor of the item
-        state.items[existingItemIndex] = {
-          ...state.items[existingItemIndex],
-          color,
-          backgroundColor,
-        };
+      const item = state.items.find(item => item.id === id);
+      if (item) {
+        item.color = color;
+        item.backgroundColor = backgroundColor;
       }
-    },
-    removeItem(state, action) {
-      state.items = state.items.filter(item => item.id !== action.payload);
-    },
-    resetItems(state) {
-      state.items = [];
     },
   },
 });
 
-export const { addItem, updateItemColors, removeItem, resetItems } = droppedItemsSlice.actions;
+export const { addItem, updateItemPosition, updateItemColors } = droppedItemsSlice.actions;
 export default droppedItemsSlice.reducer;

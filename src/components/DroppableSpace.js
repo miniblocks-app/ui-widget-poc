@@ -8,13 +8,13 @@ const DroppableSpace = ({ onDrop }) => {
     <div
       ref={setNodeRef}
       style={{
-        width: "500px",
-        height: "500px",
+        width: "320px",
+        height: "700px",
         border: "2px dashed #ccc",
-        backgroundColor: isOver ? "lightgreen" : "white",
+        borderRadius: "10px",
+        backgroundColor: isOver ? "lightgreen" : "white"
       }}
-    >
-      Drop here
+    ><div style={{position: "relative", display: "flex", justifyContent:"center", alignItems: "center"}}>Drop here</div> 
     </div>
   );
 };
