@@ -1,14 +1,18 @@
-// src/components/FlutterConverter.js
 import React from 'react';
 
 const FlutterConverter = ({ filteredItems, setFlutterCode }) => {
   const convertToFlutter = () => {
-    const widgetCode = filteredItems.map(item => {
-      return `Container(
-  color: Color(0x${item.backgroundColor.replace('#', '')}),
-  child: Text(
-    'Button',
-    style: TextStyle(color: Color(0x${item.color.replace('#', '')})),
+    const widgetCode = filteredItems.map((item) => {
+      return `Positioned(
+  left: ${item.position.x},
+  top: ${item.position.y},
+  child: Container(
+    color: Color(0x${item.backgroundColor.replace('#', '')}),
+    padding: EdgeInsets.all(8.0),
+    child: Text(
+      '${item.id}', // Use item ID or label
+      style: TextStyle(color: Color(0x${item.color.replace('#', '')})),
+    ),
   ),
 ),`;
     }).join("\n");
@@ -25,13 +29,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('Drag and Drop Items')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ${widgetCode}
-            ],
-          ),
+        body: Stack(
+          children: [
+            ${widgetCode}
+          ],
         ),
       ),
     );
