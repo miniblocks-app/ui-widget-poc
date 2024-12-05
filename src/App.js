@@ -6,6 +6,7 @@ import DroppableSpace from "./components/DroppableSpace";
 import FlutterConverter from "./utils/FlutterConverter"; // Import the new component
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, updateItemPosition, updateItemColors } from './redux/droppedItemsSlice';
+import miniblocksLogo from './assets/miniblocks-logo.jpeg';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -51,15 +52,19 @@ const App = () => {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div style={{ textAlign: "center", padding: "20px" }}>
+      <div style={{ textAlign: "center", padding: "20px", display: "flex", position:"relative", justifyContent: "center"}}>
+        <img src={miniblocksLogo} alt="Logo" style={{ width: "auto", height: "60px" }} />
         <h1>UI Widget POC</h1>
       </div>
       <div style={{ display: "flex", gap: "20px", alignSelf: "center" }}>
-        {/* Left Panel */}
-        <div style={{ width: "450px", padding: "10px", backgroundColor: "#D9D9D9", marginInline: "15px", borderRadius: "10px" }}>
+        {/* /* Left Panel */ }
+        <div style={{ width: "450px", padding: "10px", backgroundColor: "#D9D9D9", marginInline: "15px", borderRadius: "10px", textAlign: "center" }}>
           <h3>Widget Library</h3>
+          <div style={{ position: "relative", display: "flex"}}>
           <ButtonItem id="button1" onUpdateColors={handleUpdateColors} />
           <TextBoxItem id="textbox1" color="blue" />
+          </div>
+          
         </div>
 
         {/* Middle Panel (Droppable Workspace) */}
